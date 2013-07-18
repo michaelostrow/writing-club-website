@@ -4,6 +4,7 @@ import string
 import random
 import json
 import time
+import random
 
 import webapp2
 import jinja2
@@ -26,6 +27,9 @@ def render_str(template, **params):
     
 def email_key(name = 'default'):
     return db.Key.from_path('write club emails', name)
+    
+def prompt_key(name = 'default'):
+    return db.Key.from_path('write club prompts', name)
 
 EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
@@ -38,6 +42,15 @@ def not_new_email(s):
         if e.email == s:
             val = True
     return val
+    
+def get_prompt():
+    all_prompt = db.GqlQuery("select * from promptDB")
+    all_prompt = list(all_prompt)
+    if len(all_prompt) == 0:
+        return "No prompts for you... yet!"
+    else:
+        return str(random.choice(all_prompt).text)
+    
     
 class BaseHandler(webapp2.RequestHandler):
     def render(self, template, **kw):
@@ -59,27 +72,53 @@ class MainPage(BaseHandler):
         elif valid_email(email):
             new_email = emailDB(parent = email_key(), email = email)
             new_email.put()
-            self.redirect('/thankyou')
+            self.redirect('/thankyousu')
         else:
             self.render("clubmain.html", email = email, eerror = "ERROR: Invalid email")
         
+class Prompts(BaseHandler):
+    
+    def get(self):
+        the_prompt = get_prompt()
+        self.render("prompts.html", the_prompt = the_prompt)
         
+    def post(self):
+        content = self.request.get("content")
+        if content == '':
+            the_prompt = get_prompt()
+            self.render("prompts.html", the_prompt = the_prompt, perror = "Please type your prompt")
+        else:
+            new_prompt = promptDB(parent = prompt_key(), text = content)
+            new_prompt.put()
+            self.redirect('/thankyoupr')
+        
+    
 class BoardPics(BaseHandler):
 
     def get(self):
         self.render("clubpics.html")
         
         
-class ThankYou(BaseHandler):
+class ThankYouSU(BaseHandler):
     
     def get(self):
-        self.render("thankyou.html")
+        self.render("thankyousu.html")
+        
+class ThankYouP(BaseHandler):
+    
+    def get(self):
+        self.render("thankyoupr.html")
         
 class emailDB(db.Model):
     email = db.StringProperty(required = True)
+    
+class promptDB(db.Model):
+    text = db.TextProperty(required = True)
             
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/eboard', BoardPics),
-                               ('/thankyou', ThankYou)],
+                               ('/thankyousu', ThankYouSU),
+                               ('/thankyoupr', ThankYouP),
+                               ('/prompts', Prompts)],
                               debug=True)
     
