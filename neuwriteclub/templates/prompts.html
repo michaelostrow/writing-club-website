@@ -1,93 +1,71 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
     <head>
-        <title>NEU Writing Club</title>
+    
+        <meta charset="utf-8">
         
-        <style type="text/css">
+        <title>NEU Write Club</title>
         
-        body {
-            background-color: dddddd;
-            font-family: sans-serif;
-            padding-left: 40px;
-            padding-right: 40px;
-            text-align: center;
-        }
-        
-        h1 {
-            font-family: serif;
-        }
-        
-        #content {
-            border: 2px solid black;
-            padding: 25px;
-            font-family: sans-serif;
-        }
-        
-        div p {
-            padding: 2px;
-            margin: 2px;
-            font-size: 18;
-        }
-        
-        input {
-            margin: 6px;
-        }
-       
-        
-        </style>
+        <link rel="stylesheet" href="../static/css/bootstrap.css" type="text/css"/>
         
     </head>
     
-    <body color="aaaaaa">
+    <body>
     
-        <div>
+        <div class="container">
     
-            <h1 style="font-size: 40pt; margin-bottom: 10">Try a prompt</h1>
-            
-        </div>
+            <h1>NEU Write Club</h1>
         
-        <div id="content">
-        
-            <div>
+            <hr>
             
-                <p>
-                <b>
-                {{the_prompt}}
-                </b>    
-                </p>
+            <div class="row">
+            
+                <div class="span3">
                 
-                <br>
+                    <div>
+                        <a href="/">Main Page<a>
+                    </div>
+                    
+                    <br>
                 
-                <p>
-                <a href="/prompts">New prompt?</a>
-                </p>
+                    <div>
+                        <a href="/eboard">Get to know our board members!</a>
+                    </div>
                 
-                <br>
-                
-                <div>
-                <p>
-                Know a good prompt or excercise? Share it with us here:
-                </p>
                 </div>
                 
-                <form method="post">
+                <div class="span9">
                 
-                    <textarea name="content" style="height: 150px; width: 400px;"></textarea>
+                    <p class="lead">Try a prompt</p>
                     
-                    <div style="color: red">{{perror}}</div><br>
-                    
-                    <input type="submit">
-                    
-                </form>
+                    <p>{{the_prompt}}</p>
                 
-                <br>
+                    <p><a href="/prompts">New prompt?</a></p>
+                    
+                    <br>
                 
-                <a href="/">Main page</a>
-            
+                    <div>
+                        <p class="lead">Know a good prompt or excercise? Share it with us here:</p>
+                    </div>
+                    
+                    <form method="post">
+                    
+                        <div>
+                            <textarea name="content" style="height: 150px; width: 400px;"></textarea>
+                        </div>
+                        
+                        <input type="submit">
+                        
+                        <span style="color: red">{{perror}}</span>
+                        
+                    </form>
+                
+                </div>
+                
             </div>
-            
+    
         </div>
-        
-        
+            
     </body>
 </html>

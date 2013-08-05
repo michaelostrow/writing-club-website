@@ -1,92 +1,69 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
     <head>
-        <title>NEU Writing Club</title>
+    
+        <meta charset="utf-8">
         
-        <style type="text/css">
+        <title>NEU Write Club</title>
         
-        body {
-            background-color: dddddd;
-            font-family: sans-serif;
-            padding-left: 40px;
-            padding-right: 40px;
-            text-align: center;
-        }
-        
-        h1 {
-            font-family: serif;
-        }
-        
-        #content {
-            border: 2px solid black;
-            padding: 25px;
-            font-family: sans-serif;
-        }
-        
-        div p {
-            padding: 2px;
-            margin: 2px;
-            font-size: 18;
-        }
-        
-        input {
-            margin: 6px;
-        }
-       
-        
-        </style>
+        <link rel="stylesheet" href="../static/css/bootstrap.css" type="text/css"/>
         
     </head>
     
-    <body color="aaaaaa">
+    <body>
     
-        <div>
-    
-            <h1 style="font-size: 40pt; margin-bottom: 10">NEU Writing Club</h1>
+        <div class="container">
             
-        </div>
-        
-        <div id="content">
-        
-            <div>
+            <h1>NEU Write Club</h1>
             
-                <p>
-                <b>
-                The Northeastern Writing Club is the place for sharing, discussing, and even creating your own writing. 
-                We meet <br><br> WEDNESDAYS AT 7:00PM @ 342 CURRY STUDENT CENTER <br><br> and our meetings are open to all. So if you like writing, 
-                or are just interested in hearing other people's, come on by!
-                </b>
-                </p>
+            <hr>
+        
+            <div class="row">
+            
+                <div class="span3">
                 
-                <div>
+                    <div>
+                        <a href="/eboard">Get to know our board members!</a>
+                    </div>
+                    
+                    <br>
+                    
+                    <div>
+                        <a href="/prompts">Check out some fun writing prompts!</a>
+                    </div>
                 
-                    <form method="post">
-                        <h2>Join our mailing list!</h2>
+                </div>
                 
-                        <label>
-                            <input type="text" name="email" value="{{email}}">
-                            Email
-                        </label><br>
+                <div class="span9">
+                    
+                    <p class="lead">
+                    The Northeastern Writing Club is the place for sharing, discussing, and even creating your own writing. 
+                    We meet <br><br> WEDNESDAYS AT 7:00PM @ 342 CURRY STUDENT CENTER <br><br> and our meetings are open to all. So if you like writing, 
+                    or are just interested in hearing other people's, come on by!
+                    </p>
+                    
+                    <div>
                         
-                        <div style="color: red">{{eerror}}</div><br>
-                
-                        <input type="submit">
-                    </form>
-                
+                        <form method="post">
+                            <h3>Join our mailing list!</h3>
+                                
+                                <div>
+                                    
+                                        <input type="text" name="email" value="{{email}}">
+                                        Email
+                                    
+                                
+                                    <span style="color: red">{{eerror}}</span>
+                                </div>
+                    
+                            <input type="submit">
+                        </form>
+                        
+                    </div>
+                    
                 </div>
                 
-                <div>
-                    <a href="/eboard">Get to know our board members!</a>
-                </div>
-                
-                <br>
-                
-                <div>
-                    <a href="/prompts">Check out some fun writing prompts!</a>
-                </div>
-                
-               
-            
             </div>
             
         </div>
