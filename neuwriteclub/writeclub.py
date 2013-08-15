@@ -5,6 +5,7 @@ import random
 import json
 import time
 import random
+import datetime
 
 import webapp2
 import jinja2
@@ -18,6 +19,10 @@ from google.appengine.ext import db
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
+                               
+month_dir = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June',
+             7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November',
+             12: 'December'}
 
                                
 def render_str(template, **params):
@@ -25,11 +30,8 @@ def render_str(template, **params):
     return t.render(params)
 
     
-def email_key(name = 'default'):
-    return db.Key.from_path('write club emails', name)
-    
-def prompt_key(name = 'default'):
-    return db.Key.from_path('write club prompts', name)
+def club_key(name = 'default'):
+    return db.Key.from_path('club site key', name)
 
 EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
@@ -50,6 +52,11 @@ def get_prompt():
         return "No prompts for you... yet!"
     else:
         return str(random.choice(all_prompt).text)
+        
+def get_archive():
+    all_archive = db.GqlQuery("select * from archiveDB")
+    all_archive = list(all_archive)
+    
     
     
 class BaseHandler(webapp2.RequestHandler):
@@ -70,7 +77,7 @@ class MainPage(BaseHandler):
         if not_new_email(email):
             self.render("clubmain.html", eerror = "Oops! You're already on our mailing list.")
         elif valid_email(email):
-            new_email = emailDB(parent = email_key(), email = email)
+            new_email = emailDB(parent = club_key(), email = email)
             new_email.put()
             self.redirect('/thankyousu')
         else:
@@ -88,9 +95,39 @@ class Prompts(BaseHandler):
             the_prompt = get_prompt()
             self.render("prompts.html", the_prompt = the_prompt, perror = "Please type your prompt")
         else:
-            new_prompt = promptDB(parent = prompt_key(), text = content)
+            new_prompt = promptDB(parent = club_key(), text = content)
             new_prompt.put()
             self.redirect('/thankyoupr')
+            
+            
+class Archive(BaseHandler):
+
+    def get(self):
+        all_archive = db.GqlQuery('select * from archiveDB')
+        all_archive = list(all_archive)
+        self.render("archive.html", archive = all_archive)
+        
+class IndiArchive(BaseHandler):
+
+    def get(self, archive_id):
+        key = db.Key.from_path('archiveDB', int(archive_id), parent=club_key())
+        to_render = db.get(key)
+        self.render("indiarchive.html", archive = to_render)
+        
+class ArchiveSubmit(BaseHandler):
+
+    def get(self):
+        self.render("archivesubmit.html")
+        
+    def post(self):
+        title = self.request.get("title")
+        content = self.request.get("content")
+        if (title == '') or (content == ''):
+            self.render("archivesubmit.html", tval = title, cval = content, eerror = "Incomplete entry")
+        else:
+            new_archive = archiveDB(parent = club_key(), title = title, text = content)
+            new_archive.put()
+            self.redirect("/archive")
         
     
 class BoardPics(BaseHandler):
@@ -114,11 +151,20 @@ class emailDB(db.Model):
     
 class promptDB(db.Model):
     text = db.TextProperty(required = True)
+    
+class archiveDB(db.Model):
+    title = db.StringProperty(required = True)
+    text = db.TextProperty(required = True)
+    submit_date = db.DateProperty(required = True, auto_now_add = True)
+    
             
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/eboard', BoardPics),
                                ('/thankyousu', ThankYouSU),
                                ('/thankyoupr', ThankYouP),
-                               ('/prompts', Prompts)],
+                               ('/prompts', Prompts),
+                               ('/archive', Archive),
+                               ('/archive/([0-9]+)', IndiArchive),
+                               ('/archivesubmit', ArchiveSubmit)],
                               debug=True)
     
