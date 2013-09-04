@@ -130,7 +130,7 @@ class ArchiveSubmit(BaseHandler):
 class BoardPics(BaseHandler):
 
     def get(self):
-        self.render("picscontent.html")
+        self.render("clubpics.html")
         
         
 class ThankYouSU(BaseHandler):
