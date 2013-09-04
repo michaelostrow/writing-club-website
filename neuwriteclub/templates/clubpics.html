@@ -1,100 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "maintemplate.html" %}
 
-    <head>
+{% block content %}
+
+<p class="lead">Get to know our board!</p>
     
-        <meta charset="utf-8">
-        
-        <title>NEU Write Club</title>
-        
-        <link rel="stylesheet" href="../static/css/bootstrap.css" type="text/css"/>
-        
-    </head>
+    <div class="row">
     
-    <body>
-    
-        <div class="container">
-    
-            <h1>NEU Write Club</h1>
-        
-            <hr>
-            
-            <div class="row">
-            
-                <div class="span3">
-                
-                    <div>
-                        <a href="/eboard">Get to know our board members!</a>
-                    </div>
-                    
-                    <br>
-                    
-                    <div>
-                        <a href="/prompts">Check out some fun writing prompts!</a>
-                    </div>
-                    
-                    <br>
-                    
-                    <div>
-                        <a href="/archive">Have a look at our past work!</a>
-                    </div>
-                    
-                    <br>
-                    
-                    <div>
-                        <a href="/">Main Page</a>
-                    </div>
-                
-                </div>
-                
-                <div class="span9">
-            
-                    <p class="lead">Get to know our board!</p>
-                    
-                    <div class="row">
-                    
-                        <div class="span3">
-                            <img src="../static/pics/human.jpg">
-                            <p class="text-center"></p>
-                        </div>
-                        
-                        <div class="span3">
-                            <img src="../static/pics/tomv.jpg">
-                            <p class="text-center">Tom Viccaro</p>
-                        </div>
-                        
-                        <div class="span3">
-                            <img src="../static/pics/mick.jpg">
-                            <p class="text-center">Mick Theebs</p>
-                        </div>
-                    
-                    </div>
-                    
-                    <div class="row">
-                    
-                        <div class="span3">
-                            <img src="../static/pics/mike.jpg">
-                            <p class="text-center">Michael Ostrow</p>
-                        </div>
-                        
-                        <div class="span3">
-                            <img src="../static/pics/danbrown.jpg">
-                            <p class="text-center">Dan Brown</p>
-                        </div>
-                        
-                        <div class="span3">
-                            <img src="../static/pics/human.jpg">
-                            <p class="text-center">A Person</p>
-                        </div>
-                    
-                    </div>
-                            
-                </div>
-                
-            </div>
-                
+        <div class="span3">
+            <img src="../static/pics/human.jpg">
+            <p class="text-center"></p>
         </div>
         
+        <div class="span3">
+            <img src="../static/pics/tomv.jpg">
+            <p class="text-center">Tom Viccaro</p>
+        </div>
         
-    </body>
-</html>
+        <div class="span3">
+            <img src="../static/pics/mick.jpg">
+            <p class="text-center">Mick Theebs</p>
+        </div>
+    
+    </div>
+    
+    <div class="row">
+    
+        <div class="span3">
+            <img src="../static/pics/mike.jpg">
+            <p class="text-center">Michael Ostrow</p>
+        </div>
+        
+        <div class="span3">
+            <img src="../static/pics/danbrown.jpg">
+            <p class="text-center">Dan Brown</p>
+        </div>
+        
+        <div class="span3">
+            <img src="../static/pics/human.jpg">
+            <p class="text-center">A Person</p>
+        </div>
+    
+    </div>
+    
+{% endblock %}

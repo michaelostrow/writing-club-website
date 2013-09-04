@@ -1,51 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "maintemplate.html" %}
 
-    <head>
-    
-        <meta charset="utf-8">
-        
-        <title>NEU Write Club</title>
-        
-        <link rel="stylesheet" href="../static/css/bootstrap.css" type="text/css"/>
-        
-    </head>
-    
-    <body>
-    
-        <div class="container">
-    
-            <h1>NEU Write Club</h1>
-        
-            <hr>
-            
-            <div class="row">
-            
-                <div class="span3">
-                
-                    <div>
-                        <a href="/eboard">Get to know our board members!</a>
-                    </div>
-                    
-                    <br>
-                    
-                    <div>
-                        <a href="/prompts">Check out some fun writing prompts!</a>
-                    </div>
-                    
-                    <br>
-                    
-                    <div>
-                        <a href="/archive">Have a look at our past work!</a>
-                    </div>
-                    
-                    <br>
-                    
-                    <div>
-                        <a href="/">Main Page</a>
-                    </div>
-                
-                </div>
+{% block content %}
                 
                 <div class="span9">
                 
@@ -57,9 +12,4 @@
                 
                 </div>
                 
-            </div>
-    
-        </div>
-            
-    </body>
-</html>
+{% endblock %}            

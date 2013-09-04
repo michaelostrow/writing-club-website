@@ -2,9 +2,6 @@ import os
 import re
 import string
 import random
-import json
-import time
-import random
 import datetime
 
 import webapp2
@@ -133,7 +130,7 @@ class ArchiveSubmit(BaseHandler):
 class BoardPics(BaseHandler):
 
     def get(self):
-        self.render("clubpics.html")
+        self.render("picscontent.html")
         
         
 class ThankYouSU(BaseHandler):

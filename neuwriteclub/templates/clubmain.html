@@ -1,60 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "maintemplate.html" %}
 
-    <head>
-    
-        <meta charset="utf-8">
-        
-        <title>NEU Write Club</title>
-        
-        <link rel="stylesheet" href="../static/css/bootstrap.css" type="text/css"/>
-        
-    </head>
-    
-    <body>
-    
-        <div class="container">
-            
-            <h1>NEU Write Club</h1>
-            
-            <hr>
-        
-            <div class="row">
-            
-                <div class="span3">
-                
-                    <div>
-                        <a href="/eboard">Get to know our board members!</a>
-                    </div>
-                    
-                    <br>
-                    
-                    <div>
-                        <a href="/prompts">Check out some fun writing prompts!</a>
-                    </div>
-                    
-                    <br>
-                    
-                    <div>
-                        <a href="/archive">Have a look at our past work!</a>
-                    </div>
-                    
-                    <br>
-                    
-                    <div>
-                        <a href="/">Main Page</a>
-                    </div>
-                
-                </div>
+{% block content %}
                 
                 <div class="span9">
-                    
-                    <p class="lead">
-                    The Northeastern Writing Club is the place for sharing, discussing, and even creating your own writing. 
-                    We meet <br><br> THURSDAYS AT 6:00PM @ 13 INTERNATIONAL VILLAGE<br><br> and our meetings are open to all. So if you like writing, 
-                    or are just interested in hearing other people's, come on by!
-                    </p>
-                    
+                
+                    <p class="lead">The Northeastern Writing Club is the place for sharing, discussing, and even creating your own writing. 
+                    We meet <b>THURSDAYS AT 6:00PM @ 13 INTERNATIONAL VILLAGE</b> and our meetings are open to all. So if you like writing, 
+                    or are interested in hearing other people's work, come on by!</p>
+                
                     <div>
                         
                         <form method="post">
@@ -82,14 +35,7 @@
                         </label>
                         
                     </div>
-                    
+                
                 </div>
                 
-            </div>
-            
-        </div>
-        
-        <br>
-        
-    </body>
-</html>
+{% endblock %}                
