@@ -1,0 +1,19 @@
+{% extends "maintemplate.html" %}
+
+{% block content %}
+                
+                <div class="span9">
+                
+                    <p class="lead">Upcoming Events:</p>
+                    <br>
+                
+                    {% for x in events %}
+                
+                    <p>{{x}}</p>
+                    <br>
+                    
+                    {% endfor %}
+                
+                </div>
+                
+{% endblock %}            

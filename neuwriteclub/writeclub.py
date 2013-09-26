@@ -125,6 +125,17 @@ class ArchiveSubmit(BaseHandler):
             new_archive = archiveDB(parent = club_key(), title = title, text = content)
             new_archive.put()
             self.redirect("/archive")
+            
+class EventsHandler(BaseHandler):
+
+    def get(self):
+        f = open('events.txt')
+        l = []
+        while True:
+            line = f.readline()
+            l.append(line)
+            if not line: break
+        self.render("events.html", events = l)
         
     
 class BoardPics(BaseHandler):
@@ -162,6 +173,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/prompts', Prompts),
                                ('/archive', Archive),
                                ('/archive/([0-9]+)', IndiArchive),
-                               ('/archivesubmit', ArchiveSubmit)],
+                               ('/archivesubmit', ArchiveSubmit),
+                               ('/events', EventsHandler)],
                               debug=True)
     
