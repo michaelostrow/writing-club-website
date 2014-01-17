@@ -21,6 +21,8 @@ month_dir = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: '
              7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November',
              12: 'December'}
 
+secret = '32017a2f02f822db7bfcbd5f5783c6d0b69faae2775e138cffee5b0d9091cf41'
+
                                
 def render_str(template, **params):
     t = jinja_env.get_template(template)
@@ -40,21 +42,12 @@ def not_new_email(s):
     for e in all_email:
         if e.email == s:
             val = True
-    return val
-    
-def get_prompt():
-    all_prompt = db.GqlQuery("select * from promptDB")
-    all_prompt = list(all_prompt)
-    if len(all_prompt) == 0:
-        return "No prompts for you... yet!"
-    else:
-        return str(random.choice(all_prompt).text)
+    return val       
         
-def get_archive():
-    all_archive = db.GqlQuery("select * from archiveDB")
-    all_archive = list(all_archive)
-    
-    
+def get_blog_posts():
+    all_blog = db.GqlQuery("select * from blogDB limit 10")
+    all_blog = list(all_blog)
+    return all_blog
     
 class BaseHandler(webapp2.RequestHandler):
     def render(self, template, **kw):
@@ -79,52 +72,13 @@ class MainPage(BaseHandler):
             self.redirect('/thankyousu')
         else:
             self.render("clubmain.html", email = email, eerror = "ERROR: Invalid email")
-        
-class Prompts(BaseHandler):
-    
-    def get(self):
-        the_prompt = get_prompt()
-        self.render("prompts.html", the_prompt = the_prompt)
-        
-    def post(self):
-        content = self.request.get("content")
-        if content == '':
-            the_prompt = get_prompt()
-            self.render("prompts.html", the_prompt = the_prompt, perror = "Please type your prompt")
-        else:
-            new_prompt = promptDB(parent = club_key(), text = content)
-            new_prompt.put()
-            self.redirect('/thankyoupr')
             
             
 class Archive(BaseHandler):
 
     def get(self):
-        all_archive = db.GqlQuery('select * from archiveDB')
-        all_archive = list(all_archive)
-        self.render("archive.html", archive = all_archive)
-        
-class IndiArchive(BaseHandler):
+        self.render("archive.html")
 
-    def get(self, archive_id):
-        key = db.Key.from_path('archiveDB', int(archive_id), parent=club_key())
-        to_render = db.get(key)
-        self.render("indiarchive.html", archive = to_render)
-        
-class ArchiveSubmit(BaseHandler):
-
-    def get(self):
-        self.render("archivesubmit.html")
-        
-    def post(self):
-        title = self.request.get("title")
-        content = self.request.get("content")
-        if (title == '') or (content == ''):
-            self.render("archivesubmit.html", tval = title, cval = content, eerror = "Incomplete entry")
-        else:
-            new_archive = archiveDB(parent = club_key(), title = title, text = content)
-            new_archive.put()
-            self.redirect("/archive")
             
 class EventsHandler(BaseHandler):
 
@@ -136,7 +90,33 @@ class EventsHandler(BaseHandler):
             l.append(line)
             if not line: break
         self.render("events.html", events = l)
-        
+
+class BlogHandler(BaseHandler):
+
+    def get(self):
+        blog_posts = get_blog_posts()
+        self.render("blog.html", blog_posts = blog_posts)
+
+
+class SubmitHandler(BaseHandler):
+
+    def get(self):
+        self.render("blogsubmit.html")  
+
+    def post(self):
+        title = self.request.get("title")
+        content = self.request.get("content")
+        password = self.request.get("password")
+        if (title == '') or (content == ''):
+            self.render("blogsubmit.html", titlev = title, textv = content,
+                        passv = "", eerror = "Incomplete Entry")
+        elif (hashlib.sha256(password).hexdigest() != secret):
+             self.render("blogsubmit.html", titlev = title, textv = content,
+                        passv = "", eerror = "Incorrect Password")
+        else:
+            new_archive = blogDB(parent = club_key(), title = title, text = content)
+            new_archive.put()
+            self.redirect("/blog")  
     
 class BoardPics(BaseHandler):
 
@@ -148,32 +128,31 @@ class ThankYouSU(BaseHandler):
     
     def get(self):
         self.render("thankyousu.html")
+
         
 class ThankYouP(BaseHandler):
     
     def get(self):
         self.render("thankyoupr.html")
+
         
 class emailDB(db.Model):
     email = db.StringProperty(required = True)
-    
-class promptDB(db.Model):
-    text = db.TextProperty(required = True)
-    
-class archiveDB(db.Model):
+
+
+class blogDB(db.Model):
     title = db.StringProperty(required = True)
-    text = db.TextProperty(required = True)
-    submit_date = db.DateProperty(required = True, auto_now_add = True)
+    text = db.StringProperty(required = True)
+    submit_date = db.DateProperty(required = True, auto_now_add = True)    
     
             
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/eboard', BoardPics),
                                ('/thankyousu', ThankYouSU),
                                ('/thankyoupr', ThankYouP),
-                               ('/prompts', Prompts),
                                ('/archive', Archive),
-                               ('/archive/([0-9]+)', IndiArchive),
-                               ('/archivesubmit', ArchiveSubmit),
-                               ('/events', EventsHandler)],
+                               ('/events', EventsHandler),
+                               ('/blog', BlogHandler),
+                               ('/blogsubmit', SubmitHandler)],
                               debug=True)
     

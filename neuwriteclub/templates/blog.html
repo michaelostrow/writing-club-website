@@ -1,0 +1,38 @@
+{% extends "maintemplate.html" %}
+
+{% block content %}
+
+				<div class="span9">
+
+				<h2>Write Club Blog</h2>
+
+				<br>
+
+				</div>
+                
+                {% for p in blog_posts %}
+
+                	<div class="span9">
+        		
+        				<div class="row">
+
+	        				<div class="span6">
+	        					<h3 style="margin: 0px">{{p.title}}</h3>
+	        					<p style="margin-left: 5px"><small>{{p.submit_date}}</small></p>
+	        				</div>
+
+        				</div>
+
+        				<hr style="margin: 2px">
+
+        				<p style="margin-top: 15px; margin-bottom: 15px">{{p.text}}</p>
+
+        				<hr style="margin: 2px">
+
+        			</div>
+
+        			<br>
+
+        		{% endfor %}
+                
+{% endblock %}                
