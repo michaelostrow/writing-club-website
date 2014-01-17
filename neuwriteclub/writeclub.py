@@ -45,7 +45,7 @@ def not_new_email(s):
     return val       
         
 def get_blog_posts():
-    all_blog = db.GqlQuery("select * from blogDB limit 10")
+    all_blog = db.GqlQuery("select * from blogDB order by __key__ desc limit 10")
     all_blog = list(all_blog)
     return all_blog
     
@@ -142,7 +142,7 @@ class emailDB(db.Model):
 
 class blogDB(db.Model):
     title = db.StringProperty(required = True)
-    text = db.StringProperty(required = True)
+    text = db.TextProperty(required = True)
     submit_date = db.DateProperty(required = True, auto_now_add = True)    
     
             

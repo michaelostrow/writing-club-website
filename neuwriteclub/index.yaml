@@ -21,3 +21,8 @@ indexes:
   properties:
   - name: date
     direction: desc
+
+- kind: blogDB
+  properties:
+  - name: __key__
+    direction: desc
