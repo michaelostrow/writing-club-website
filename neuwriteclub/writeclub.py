@@ -12,14 +12,13 @@ import hmac
 
 from google.appengine.api import memcache
 from google.appengine.ext import db
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
-                               autoescape = True)
-                               
-month_dir = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June',
-             7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November',
-             12: 'December'}
+                               autoescape = False)
+
 
 secret = '32017a2f02f822db7bfcbd5f5783c6d0b69faae2775e138cffee5b0d9091cf41'
 
@@ -98,9 +97,10 @@ class BlogHandler(BaseHandler):
         self.render("blog.html", blog_posts = blog_posts)
 
 
-class SubmitHandler(BaseHandler):
+class SubmitHandler(BaseHandler, blobstore_handlers.BlobstoreUploadHandler):
 
     def get(self):
+
         self.render("blogsubmit.html")  
 
     def post(self):
